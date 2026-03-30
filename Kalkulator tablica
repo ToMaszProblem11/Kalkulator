@@ -1,0 +1,107 @@
+#include <stdio.h>
+
+void czytaj_linijke_z_wejscia(char buf[])
+{
+    int i = 0;
+    int znaczek;
+
+    while ((znaczek = getchar()) != '\n' && znaczek != EOF)
+    {
+        buf[i] = znaczek;
+        i++;
+    }
+    buf[i] = '\0';
+}
+
+
+int k_b_z(char bufor[], int i)
+{
+    while (bufor[i] == ' ' || bufor[i] == '\n' || bufor[i] == '\r' || bufor[i] == '\t')
+    {
+        i++;
+    }
+    return i;
+}
+
+
+int tekst_na_liczbe(char bufor[], int i)
+{
+    int liczba = 0;
+    while (bufor[i] >= '0' && bufor[i] <= '9')
+    {
+        liczba = liczba * 10 + bufor[i] - '0';
+        i++;
+    }
+    return liczba;
+}
+
+
+int pomin_cyfry(char bufor[], int i)
+{
+    while (bufor[i] >= '0' && bufor[i] <= '9')
+    {
+        i++;
+    }
+    return i;
+}
+
+
+int okresl_dzialanie(char znak)
+{
+    if (znak == '+') return 1;
+    if (znak == '-') return 2;
+    if (znak == '*') return 3;
+    if (znak == '/') return 4;
+    return 0; 
+}
+
+int main()
+{
+    char bufor[1024];
+    int i = 0; 
+    int liczbaA, dzialanie, liczbaB;
+
+    printf("Wpisz dzialanie (np. 12 + 4): ");
+    czytaj_linijke_z_wejscia(bufor);
+
+  
+    i = k_b_z(bufor, i);                
+    liczbaA = tekst_na_liczbe(bufor, i); 
+    i = pomin_cyfry(bufor, i);           
+
+    
+    i = k_b_z(bufor, i);                
+    dzialanie = okresl_dzialanie(bufor[i]);
+    if (!dzialanie)
+    {
+        printf("BLAD: Nieznane dzialanie!\n");
+        return 1;
+    }
+    i++; 
+
+   
+    i = k_b_z(bufor, i);                
+    liczbaB = tekst_na_liczbe(bufor, i); 
+
+  
+    printf("Wynik to: ");
+    if (dzialanie == 1) {
+        printf("%d\n", liczbaA + liczbaB);
+    }
+    else if (dzialanie == 2) {
+        printf("%d\n", liczbaA - liczbaB);
+    }
+    else if (dzialanie == 3) {
+        printf("%d\n", liczbaA * liczbaB);
+    }
+    else if (dzialanie == 4) {
+        if (liczbaB == 0) {
+            printf("BLAD: Nie dziel przez zero!\n");
+        }
+        else {
+            printf("%d\n", liczbaA / liczbaB);
+        }
+    }
+
+    return 0;
+}
