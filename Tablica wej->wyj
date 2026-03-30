@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+void czytaj_linijke_z_wejscia(char buf[], int i)
+{
+    int znaczek;
+    for (i = 0; (znaczek = getchar()) != '\n' && znaczek != EOF; i++)
+    {
+        buf[i] = znaczek;
+    }
+
+    buf[i] = '\0';
+}
+
+void k_b_z(char bufor[], int i)
+{
+    int znaczek = bufor[i];
+
+    while (znaczek != '\0' && (znaczek == ' ' || znaczek == '\n' || znaczek == '\r' || znaczek == '\t'))
+    {
+        i++; 
+        znaczek = bufor[i];
+    }
+}
+
+int tekst_na_liczbe(char bufor[], int i)
+{
+    int liczba = 0;
+    while (bufor[i] >= '0' && bufor[i] <= '9')
+    {
+        liczba = liczba * 10 + bufor[i++] - '0';
+    }
+
+    return liczba;
+}
+
+void main()
+{
+    char bufor[1024];
+    czytaj_linijke_z_wejscia(bufor, 0);
+
+    printf("%s\n", bufor);
+}
