@@ -1,0 +1,64 @@
+#include <stdio.h>
+
+void wczytaj_tekst(char tablica[])
+{
+	int i = 0;
+	int znak;
+	while ((znak = getchar()) != '\n' && znak != -1)
+	{
+		tablica[i] = znak;
+		i++;
+	}
+}
+
+int czy_samogloska(char litera)
+{
+	if (litera == 'a' ||
+		litera == 'e' ||
+		litera == 'i' ||
+		litera == 'y' ||
+		litera == 'o' ||
+		litera == 'u' ||
+		litera == 'A' ||
+		litera == 'E' ||
+		litera == 'I' ||
+		litera == 'Y' ||
+		litera == 'O' ||
+		litera == 'U' )
+	{
+		return 1;
+	}
+	return 0;
+}
+
+int policz_samogloski(char tablica[])
+{
+	int i = 0;
+	int licznik = 0;
+
+	while (tablica[i] != '\0')
+	{
+		if (czy_samogloska(tablica[i]) == 1)
+		{
+			licznik++;
+
+		}
+		i++;
+
+	}
+	return licznik;
+
+}
+
+int main()
+{
+	char moj_tekst[1024];
+	int wynik;
+	printf("wprowadź zdanie: ");
+	wczytaj_tekst(moj_tekst);
+	wynik=policz_samogloski(moj_tekst);
+
+	printf("Twój tekst to: %s\n", moj_tekst);
+	printf("liczba samoglosek to: %d", wynik);
+	return 0;
+}
