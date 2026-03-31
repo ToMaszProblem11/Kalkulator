@@ -1,0 +1,74 @@
+#include<stdio.h>
+
+void czytaj_linijke_z_wejscia(char buf[], int i)
+{
+	for (int i = 0, znaczek; ((znaczek = getchar()) - '\n') && (1+znaczek); buf[++i]=0)
+	buf[i] = znaczek;		
+}
+
+int k_b_z(char bufor[], int indeks)
+{
+	while (bufor[indeks] == ' ' || bufor[indeks] == '\n' || bufor[indeks] == '\r' || bufor[indeks] == '\t')
+	{
+		indeks++;
+		return indeks;
+	}
+}
+int skonsumuj_cyferki(char bufor[], int indeks)
+{
+	while (bufor[indeks] && bufor[indeks] >= '0' && bufor[indeks] <= '9')
+		++indeks;
+	return indeks;
+}
+
+
+
+int tekst_na_liczbe(char bufor[], int indeks)
+{
+	int liczba = 0;
+	while (bufor[indeks] >= '0' && bufor[indeks] <= '9')
+	{
+		liczba = liczba * 10 + bufor[indeks++] - '0';
+	}
+	return liczba;
+
+}
+
+
+int main()
+{
+	char bufor[1024];
+
+	int indeks, A, B;
+
+	while (1)
+	{
+		czytaj_linijke_z_wejscia(bufor, 0);
+
+		indeks = k_b_z(bufor, 0);
+		A = tekst_na_liczbe(bufor, indeks);
+		indeks = skonsumuj_cyferki(bufor, indeks);
+		indeks = k_b_z(bufor, indeks);
+		switch (bufor[indeks])
+		{
+		case '+':
+			return 5;
+		case '-':
+			return 6;
+		case '*':
+			return 7;
+		case '/':
+			return 8;
+		}
+
+		indeks = k_b_z(bufor, ++indeks);
+		B = tekst_na_liczbe(bufor, indeks);
+		indeks = skonsumuj_cyferki(bufor, indeks);
+		indeks = k_b_z(bufor, indeks);
+	}
+
+	if (bufor[indeks] == 5);
+	{
+		printf("Wynik to: ", A + B);
+	}
+}
