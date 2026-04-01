@@ -1,0 +1,54 @@
+#include<stdio.h>
+
+void czytaj_linijke_z_wejscia(char buf[], int i)
+{
+	for (int i = 0, znaczek; ((znaczek = getchar()) - '\n') && (1+znaczek); buf[++i]=0)
+	buf[i] = znaczek;		
+}
+
+int k_b_z(char bufor[], int indeks)
+{
+	while (bufor[indeks] == ' ' || bufor[indeks] == '\n' || bufor[indeks] == '\r' || bufor[indeks] == '\t')
+	{
+		indeks++;
+	}
+	return indeks;
+}
+
+int tekst_na_liczbe(char bufor[], int indeks)
+{
+	int liczba = 0;
+	while (bufor[indeks] >= '0' && bufor[indeks] <= '1')
+	{
+		liczba = liczba * 2 + (bufor[indeks++] - '0');
+	}
+	
+	return liczba;
+
+}
+
+
+int main()
+{
+	char bufor[1024];
+	int indeks=0;
+	int wynik=0;
+	
+	
+	while(1)
+	{
+	printf("wpisz liczbę w systemie dwójkowym:\n");
+	czytaj_linijke_z_wejscia(bufor,0);
+	indeks = k_b_z(bufor, indeks);
+	if (bufor[indeks]=='\0')
+	{
+	    printf("BRAK DANYCH!\n");
+	    return 0;
+	}
+	wynik=tekst_na_liczbe(bufor, indeks);
+	printf("Liczba w systemie dziesiętnym to: %d\n\n", wynik);
+	
+	
+	}
+	return 0;
+}
