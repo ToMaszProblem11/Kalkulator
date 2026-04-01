@@ -1,0 +1,96 @@
+#include<stdio.h>
+
+void czytaj_linijke_z_wejscia(char buf[], int i)
+{
+	for (int i = 0, znaczek; ((znaczek = getchar()) - '\n') && (1+znaczek); buf[++i]=0)
+	buf[i] = znaczek;		
+}
+
+int k_b_z(char bufor[], int indeks)
+{
+	while (bufor[indeks] == ' ' || bufor[indeks] == '\n' || bufor[indeks] == '\r' || bufor[indeks] == '\t')
+	{
+		indeks++;
+	}
+	return indeks;
+}
+int skonsumuj_cyferki(char bufor[], int indeks)
+{
+	while (bufor[indeks] && bufor[indeks] >= '0' && bufor[indeks] <= '9')
+	{
+		indeks++;
+	}
+	return indeks;
+}
+
+
+
+
+int tekst_na_liczbe(char bufor[], int indeks)
+{
+	int liczba = 0;
+	while (bufor[indeks] >= '0' && bufor[indeks] <= '9')
+	{
+		liczba = liczba * 10 + bufor[indeks++] - '0';
+	}
+	return liczba;
+
+}
+
+
+int main()
+{
+	char bufor[1024];
+	int indeks=0;
+	int wynik=0;
+	int kolejna_liczba=0;
+	char operator;
+	
+	printf("wpisz działanie:\n");
+	czytaj_linijke_z_wejscia(bufor,0);
+	indeks = k_b_z(bufor, indeks);
+	if (bufor[indeks]=='\0')
+	{
+	    printf("BRAK DANYCH!\n");
+	    return 0;
+	}
+	wynik=tekst_na_liczbe(bufor, indeks);
+	indeks=skonsumuj_cyferki(bufor, indeks);
+	
+	while(1)
+	{
+	    indeks=k_b_z(bufor, indeks);
+	    if (bufor[indeks]=='\0')
+	    {
+	    break;
+	    }
+	    
+	    operator=bufor[indeks];
+	    indeks++;
+	    
+	    indeks=k_b_z(bufor, indeks);
+	    kolejna_liczba=tekst_na_liczbe(bufor, indeks);
+	    indeks=skonsumuj_cyferki(bufor, indeks);
+	    
+	    switch (operator)
+	    {
+	        case '+': wynik=wynik+kolejna_liczba; break;
+	        case '-': wynik=wynik-kolejna_liczba; break;
+	        case '*': wynik=wynik*kolejna_liczba; break;
+	        case '/': 
+	            if(kolejna_liczba==0)
+	            {
+	                printf("NIE MOŻNA DZIELIĆ PRZEZ 0!\n");
+	            }
+	            else 
+	            {
+	               wynik=wynik/kolejna_liczba; 
+	            }
+	            break;
+	            return 1;
+	    }
+	    
+	}
+	printf ("ostateczny wynik to: %d", wynik);
+	return 0;
+}
