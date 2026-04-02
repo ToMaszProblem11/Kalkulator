@@ -1,0 +1,36 @@
+#include <stdio.h>
+char buf[100];
+int tekst;
+
+void wczytaj_znak() 
+{
+    int znak;
+    int i=0;
+    
+    printf("Pisz tekst:\n");
+
+    while ((znak = getchar()) != '\n' && znak != EOF) 
+    {
+     buf[i]=znak;
+     i++;
+    }
+    buf[i]='\0';
+    tekst=i;
+}
+
+void szyfruj()
+{
+   for (int j = 0; j < tekst; j++) 
+    {
+        buf[j] = buf[j] + 3; 
+    }
+}
+
+int main()
+{
+    
+    wczytaj_znak();
+    szyfruj();
+    printf("Zaszyfrowany tekst to: %s", buf);
+    return 0;
+}
