@@ -1,0 +1,26 @@
+#include <stdio.h>
+char tab[1024];
+
+int wczytaj()
+{
+    int i=0;
+    int znak;
+    while((znak=getchar())!=EOF && znak!='\n' && znak<1024 )
+    {
+        tab[i]=znak;
+        i++;
+    }
+    return i;
+}
+
+
+int main()
+{
+    int liczba_znakow=wczytaj();
+   for(int i=0; i<liczba_znakow;i++)
+    {
+    printf("%c", tab[i]);
+    }
+    
+    return 0;
+}
