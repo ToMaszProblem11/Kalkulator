@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+char tab[1024];
+
+int wczytaj()
+{
+    int i = 0;
+    int znak;
+    while ((znak = getchar()) != EOF && znak != '\n' && i < 1024)
+    {
+        tab[i] = znak;
+        i++;
+    }
+    return i;
+}
+int main()
+{
+    printf("Wpisz tekst do zdekodowania na kody ASCII:\n");
+    
+    int liczba_znakow = wczytaj();
+    
+    printf("\n--- WYNIK DEKODOWANIA ---\n");
+    
+    for(int i = 0; i < liczba_znakow; i++)
+    {
+        printf("Znak: '%c'  ->  Kod ASCII: %d\n", tab[i], tab[i]);
+    }
+    return 0;
+}
