@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+void przetwarzaj(int znak)
+{
+    static char bufor[5]={0};
+    bufor[0]=bufor[1];
+    bufor[1]=bufor[2];
+    bufor[2]=bufor[3];
+    bufor[3]=bufor[4];
+    
+    bufor[4]=znak;
+    
+    if(bufor[0]=='t' && bufor[1]=='o' && bufor[2]=='m' && bufor[3]=='e' && bufor[4]=='k')
+    {
+        printf("Znalazłeś słowo!\n");
+        bufor[0] = 0; bufor[1] = 0; bufor[2] = 0; bufor[3] = 0; bufor[4] = 0;
+    }
+}
+
+
+int wczytaj()
+{
+    int znak;
+    while((znak=getchar())!=EOF)
+    {
+      przetwarzaj(znak);
+    }
+    return 0;
+}
+
+int main()
+{
+    wczytaj();
+    return 0;
+}
