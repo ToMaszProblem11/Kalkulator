@@ -1,0 +1,75 @@
+#include <stdio.h>
+
+char haslo[100];
+char bufor[100];
+int dlugosc_hasla=0;
+
+void wczytaj_haslo()
+{
+    int znak;
+    while((znak=getchar())!=EOF && (znak==' ' || znak=='\n' || znak=='\r' || znak=='\t'))
+    {
+        //kasowanie białych znaków
+    }
+    
+    // if (znak==EOF) return;
+    
+    haslo[dlugosc_hasla]=znak;
+    dlugosc_hasla++;
+    
+    while((znak=getchar())!=EOF && znak!=' ' && znak!='\n' && znak!='\r' && znak!='\t')
+    {
+        if(dlugosc_hasla <99)
+        {
+            haslo[dlugosc_hasla]=znak;
+            dlugosc_hasla++;
+        }
+    }
+    
+}
+
+void przetwarzanie(int znak)
+{
+    for(int i=0; i<dlugosc_hasla-1;i++ )
+    {
+        bufor[i]=bufor[i+1];
+    }
+    bufor[dlugosc_hasla-1]=znak;
+    int znaleziono=1;
+    for(int i=0; i<dlugosc_hasla; i++)
+    {
+        if(bufor[i]!=haslo[i])
+        {
+            znaleziono=0;
+            break;
+            
+        }
+    }
+    if(znaleziono==1)
+    {
+        printf("Udało się!\n");
+        for (int i = 0; i < dlugosc_hasla; i++) 
+        {
+            bufor[i] = 0;
+        }
+    }
+}
+
+int main()
+{
+    printf("Wprowadź hasło: ");
+    wczytaj_haslo();
+    
+    if(dlugosc_hasla==0) return 0;
+    
+    printf("zapisano hasło, ma ono %d znaków\n", dlugosc_hasla);
+    printf("Wpisuj dowolny tekst. Program wykryje haslo w tekscie.\n");
+    int znak;
+    
+    while ((znak = getchar()) != EOF) 
+    {
+        przetwarzanie(znak);
+    }
+
+    return 0;
+}
