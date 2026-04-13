@@ -1,153 +1,72 @@
-#include <stdio.h>// Funkcja pomijająca białe znaki (spacje, entery, taby)void k_b_z()
-
+#include <stdio.h>
+void k_b_z()
 {
-
 	int znaczek;
-
-	// Pętla wczytuje znaki tak długo, jak długo są one "białymi znakami"
-
 	while ((znaczek = getchar()) != -1 &&
-
 		(znaczek == ' ' || znaczek == '\n' || znaczek == '\r' || znaczek == '\t'))
-
 	{
 
-		// Pusta pętla - po prostu pożeramy znaki
-
 	}
-
-
-
-	// Gdy trafimy na znak, który nie jest spacją (np. cyfrę),
-
-	// zwracamy go z powrotem, aby mogła go wczytać inna funkcja
-
 	if (znaczek != -1) {
-
 		ungetc(znaczek, stdin);
-
 	}
-
-}// Funkcja podglądająca, czy następny znak to cyfraint czy_jest_cyferka_na_wejsciu()
-
+}
+int czy_jest_cyferka_na_wejsciu()
 {
-
 	int znaczek = getchar();
-
 	if (znaczek == -1) return 0;
-
 	ungetc(znaczek, stdin);
-
 	return znaczek >= '0' && znaczek <= '9';
-
-}// Funkcja budująca liczbę z pojedynczych znakówint tekst_na_liczbe()
-
+}
+int tekst_na_liczbe()
 {
-
 	int liczba = 0;
-
 	while (czy_jest_cyferka_na_wejsciu())
-
 	{
-
 		liczba = liczba * 10 + (getchar() - '0');
-
 	}
-
 	return liczba;
-
-}// Funkcja rozpoznająca operator matematycznyint okresl_dzialanie()
-
+}
+int okresl_dzialanie()
 {
-
-	int znaczek = getchar(); // POPRAWKA: tu była nazwa "liczba", zmieniono na "znaczek"
-
+	int znaczek = getchar(); 
 	if (znaczek == '+') return 1;
-
 	if (znaczek == '-') return 2;
-
 	if (znaczek == '*') return 3;
-
 	if (znaczek == '/') return 4;
-
-	return 0; // Jeśli znak nie jest poprawnym działaniem, zwracamy 0
-
-}int main() // POPRAWKA: Zmiana void main na int main
-
+	return 0; 
+}
+int main() 
 {
-
 	int liczbaA, dzialanie, liczbaB;
-
-
-
-	k_b_z(); // Usuń ewentualne spacje przed pierwszą liczbą
-
+	k_b_z(); 
 	liczbaA = tekst_na_liczbe();
-
-
-
-	k_b_z(); // Usuń ewentualne spacje przed znakiem działania
-
+	k_b_z(); 
 	dzialanie = okresl_dzialanie();
-
 	if (!dzialanie)
-
 	{
-
 		fprintf(stderr, "BŁĄD: Nieznane dzialanie\n");
-
-		return 1; // Przerywamy program po błędzie
-
+		return 1;
 	}
-
-
-
-	k_b_z(); // Usuń ewentualne spacje przed drugą liczbą
-
+	k_b_z();
 	liczbaB = tekst_na_liczbe();
-
-
-
-	// BRAKUJĄCA CZĘŚĆ: Obliczenia i wynik
-
 	printf("Wynik to: ");
-
 	if (dzialanie == 1) {
-
 		printf("%d\n", liczbaA + liczbaB);
-
 	}
-
 	else if (dzialanie == 2) {
-
 		printf("%d\n", liczbaA - liczbaB);
-
 	}
-
 	else if (dzialanie == 3) {
-
 		printf("%d\n", liczbaA * liczbaB);
-
 	}
-
 	else if (dzialanie == 4) {
-
 		if (liczbaB == 0) {
-
 			fprintf(stderr, "BŁĄD: Nie dziel przez zero!\n");
-
 		}
-
 		else {
-
 			printf("%d\n", liczbaA / liczbaB);
-
 		}
-
 	}
-
-
-
 	return 0;
-
 }
