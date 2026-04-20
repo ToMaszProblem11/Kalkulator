@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+int main()
+{
+	int a = 0;
+	int b = 2;
+	int c = 0;
+	int d = 3;
+	int e = 0;
+	int f = 0;
+	int g = 4;
+	int h = 0;
+	int i = 5;
+
+	int numbers[3][3] =
+	{
+		{a,b,c},
+		{d,e,f},
+		{g,h,i}
+	};
+	printf("a b c\nd e f\ng h i\n");
+	printf("-----\n");
+
+	for (int x = 0; x < 3; x++)				//rząd
+	{
+		for (int y = 0; y < 3; y++)			//kolumna
+		{
+			printf("%d ", numbers[x][y]);
+		}
+		printf("\n");						//przeniesenie do nowej linii po wierszu
+	}
+	
+
+	printf("%d\n", numbers[0][0]*numbers[1][1]*numbers[2][2]+			// Wyznacznik macierzy 3x3
+					numbers[0][1] * numbers[1][2] * numbers[2][0]+
+					numbers[0][2] * numbers[1][0] * numbers[2][1]-
+					numbers[2][0] * numbers[1][1] * numbers[0][2]- 
+					numbers[2][1] * numbers[1][2] * numbers[0][0]-
+					numbers[2][2] * numbers[1][0] * numbers[0][1]);
+	
+
+}
