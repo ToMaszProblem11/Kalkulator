@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+int wczytaj_liczbe()
+{
+    int wynik=0;
+    int znak=1;
+    int c=getchar();
+    while(c=='\n' || c==' ' || c=='\t')
+    {
+        c=getchar();
+    }
+    if (c=='-')
+    {
+        znak=-1;
+        c=getchar();
+    }
+    while(c>= '0' && c <='9')
+    {
+        wynik=wynik*10 + (c-'0');
+        c=getchar();
+    }
+    return wynik*znak;
+}
+
+int det(int matrix[3][3])
+{
+    return matrix[0][0]*matrix[1][1]*matrix[2][2] +
+           matrix[0][1]*matrix[1][2]*matrix[2][0] +
+           matrix[0][2]*matrix[1][0]*matrix[2][1] -
+           matrix[2][0]*matrix[1][1]*matrix[0][2] -
+           matrix[2][1]*matrix[1][2]*matrix[0][0] -
+           matrix[2][2]*matrix[1][0]*matrix[0][1];
+}
+
+int main() 
+{
+    int matrix[3][3];
+    int *ptr = &matrix[0][0];
+    int i,x,y;
+    
+    printf("Wprowadzanie macierzy 3x3:\n");
+    for (i = 0; i < 9; i++) {
+        printf("Element [%d][%d]: ", i/3, i%3);
+        *(ptr + i) = wczytaj_liczbe(); 
+    }
+    
+    printf("-------------------\n");
+    printf("Macierz ma postać:\n");
+    
+    for(int x=0; x<3; x++)
+    {
+        for(int y=0; y<3; y++)
+        {
+            printf("%d ", matrix[x][y]);
+        }
+        printf("\n");
+    }
+    
+    printf("wyznacznik to: %d",det(matrix));
+    
+}
+
