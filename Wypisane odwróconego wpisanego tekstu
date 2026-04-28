@@ -1,54 +1,84 @@
 #include <stdio.h>
-
-void wprowadz_tekst(char tab[], int rozmiar)
+/*
+int main()
 {
-    int znak;
-    int i=0;
-    while((znak=getchar())!=EOF && znak !='\n' && i<rozmiar -1)
-    {
-        tab[i]=znak;
-        i++;
-    }
-    tab[i]='\0';
-}
 
-void wypisz_tekst(char tab[])
-{
-    int i=0;
-    printf("wprowadzony tekst to: ");
-    while(tab[i] != '\0')
-    {
-        printf("%c", tab[i]);
-        i++;
-    }
-    printf("\n");
+	int x = 13, *ptr = &x; //& mówi gdzie go umieszczamy, *wskaźnik
+
+	//	*ptr += dodajemy do wartości
+	//	 ptr += dodajemy do adresu
+	// int jest zapisywany na 4 bajach
+
+	printf("i=%d\n", x);
+	printf("wartość: i=%d: Adres: %p\n", *ptr, ptr); //%p wyświetlamy adres,*bo interesuje mnie co jest pod wskaźnikiem, ptr sam adres
+
+	*ptr += 1;
+	ptr += 1;
+
+	printf("i=%d\n", x);
+	printf("wartość: i=%d: Adres: %p\n", *ptr, ptr); //%p wyświetlamy adres,*bo interesuje mnie co jest pod wskaźnikiem, ptr sam adres
+
 }
 
 
+// tablice dwuwymarowe i macierze
 
-void odwroc(char txt[]) 
+int main()
 {
-    char *ptr = &txt[0];
-    while(*ptr != '\0')
-    {
-        ptr++;
-    }
-    ptr--;
-    
-    for(;ptr >= &txt[0]; ptr--)
-    {
-        printf("%c", *ptr);
-    }
-    
+	char txt[] = "jeden dwa trzy cztery";
+	//for (char* ptr = &txt[0]; *ptr; printf("%p=%c\n", ptr, *ptr), ptr++);
+	//for (char* ptr = txt; *ptr; printf("%p=%c\n", ptr, *ptr), ptr++);			//oba są równoważne, wszedzie gdzie mogę użyć wskażnika mogę użyć nazwy tablicy
+
+	//for (int i=0; *(txt+i); printf("%p=%c\n", txt+i, *(txt+i)), i++);
+	//for (char* ptr = txt, i = 0; ptr[i]; printf("%p=%c\n", txt + i, ptr[i]), i++);
+
+	float tab[] = { 1.0, 2.3, 3.4, 4.5 };
+
+	printf("rozmiar tablicy: %d\n", sizeof(tab) / sizeof(float)); // nie zawsze musi działać, bezpieczniej samemu podac ilość elementów
+
+	for (int i = 0; i < 4; i++)
+	{
+		printf("%.2f\n", tab[i]);
+	}
+	printf("--------------------------------\n");
+	for (float* ptr = tab; (ptr - tab) < 4;printf("%p = %.3f\n", ptr, *ptr),ptr++);
+	*/
+
+/*
+void odwroc(char txt[]) // wypisuje od konca tekst z tablicy
+{
+	for (char* ptr = &txt[0]; *ptr; printf("%p=%c\n", ptr, *ptr), ptr = ptr + 1);
 }
 
-int main() 
+int main()
 {
-    int rozmiar=100;
-    char txt[100];
-    wprowadz_tekst(txt, rozmiar);
-    wypisz_tekst(txt);
-    printf("rozmiar tablicy: %d\n", (int)(sizeof(txt) / sizeof(char)));
-    odwroc(txt);
-    return 0;
+	char txt[] = "abc";
+	printf("rozmiar tablicy: %d\n", sizeof(txt) / sizeof(char));
+	odwroc(txt);
+}
+*/
+#include <stdio.h>
+
+void odwroc(char txt[])
+{
+	char* ptr = &txt[0];
+	while (*ptr != '\0')
+	{
+		ptr++;
+	}
+	ptr--;
+
+	for (; ptr >= &txt[0]; ptr--)
+	{
+		printf("%c", *ptr);
+	}
+
+}
+
+int main()
+{
+	char txt[]="abc";
+	printf("rozmiar tablicy: %d\n", (int)(sizeof(txt) / sizeof(char)));
+	odwroc(txt);
+	return 0;
 }
