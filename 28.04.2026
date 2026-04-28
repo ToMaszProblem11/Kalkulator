@@ -1,0 +1,74 @@
+/*
+#include <stdio.h>
+
+void odwroc(char txt[])
+{
+	char* poczatek = txt, * koniec = txt;
+	while (*(koniec + 1)) koniec++;
+
+	for (char znaczek; poczatek < koniec;)
+	{
+		znaczek = *poczatek;
+		*poczatek++ = *koniec;
+		*koniec-- = znaczek;
+	}
+}
+int main()
+{
+	char txt[] = "abc";
+	printf("rozmiar tablicy: %d\n", (int)(sizeof(txt) / sizeof(char)));
+	
+	printf("\n");
+	for (char* ptr = &txt[0]; *ptr; printf("%c", *ptr), ptr++);
+	printf("\n");
+
+	for (char* ptr = txt; *ptr; printf("%p=%c ", ptr, *ptr), ptr++);
+	printf("\n");
+
+	for (int i = 0; *(txt + i); printf("%p=%c ", txt + i, *(txt + i)), i++);
+	printf("\n");
+
+	for (char* ptr = txt, i = 0; ptr[i]; printf("%p=%c ", txt + i, ptr[i]), i++);
+	printf("\n");
+	printf("odwrocony tekst to:\n");
+	odwroc(txt);
+
+	return 0;
+}
+*/
+
+
+#include<stdio.h>
+/*
+int tab[3][3][2] = { {{1,2},{3,4},{5,6}},{{7,8},{9,10},{11,12}},{{13,14},{15,16},{17,18}}};
+void main()
+{
+	//	for (int* ptr = (int *)tab; ptr - (int *)tab < 9; printf("%d,", *ptr++));
+
+	int x, y, z, indeks;
+	for (x=0, indeks=0; x < 3; x++)
+	{
+		for (y=0; y < 3; y++)
+		{
+			for (z=0; z < 2; z++)
+			{
+				//printf("%d,", tab[x][y][z]);
+				printf("\n");
+				indeks++;
+				printf("%d %d %d -> %d ", x, y, z, indeks);
+			}
+		}
+	}
+*/
+float macierz[2][2] = { {1.0,2.0},{3.0,-1.0} };
+float wyznacznik(float *macierz)
+{
+	(&macierz[0][0]) * (&macierz[1][1]) - (*macierz[0][1]) *(*macierz[1][0]);
+	return *macierz;
+}
+
+void main()
+{
+	printf("%f\n", wyznacznik((float *)macierz));
+}
+
