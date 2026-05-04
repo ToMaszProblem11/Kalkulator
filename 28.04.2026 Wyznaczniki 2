@@ -45,5 +45,6 @@ float wyznacznik(float *macierz)
 void main()
 {
 	printf("%f\n", wyznacznik((void *)macierz));
+//alternatywnie printf("%f\n", wyznacznik(&macierz[0][0]));
 }
 */
