@@ -1,41 +1,34 @@
-/*
+
 #include <stdio.h>
 
 void odwroc(char txt[])
 {
-	char* poczatek = txt, * koniec = txt;
-	while (*(koniec + 1)) koniec++;
+	char *poczatek = txt;
+	char *koniec = txt;
+	char znaczek;
+	while (*(koniec+1)!=0) koniec++; //sprawdza czy następny znak to znak null \0, którego wartość to 0, jeśli nie to przesuwa się w prawo i zatrzymuje się przed znakiem null.
 
-	for (char znaczek; poczatek < koniec;)
+    while(poczatek < koniec)
 	{
-		znaczek = *poczatek;
-		*poczatek++ = *koniec;
-		*koniec-- = znaczek;
+		znaczek = *poczatek; //przypisujemy 1 znak do pamięci "znaczek"
+		*poczatek = *koniec; //na początek przypisujemy ostatni znak na wskaźniku koniec
+		*poczatek++;         //przesuwamy się na następny znak
+		*koniec = znaczek;   //na koniec przypisujemy pierwszy znak, który zapisaliśmy w                     pamięci
+		*koniec--;           // cofamy się o jeden znak
 	}
+	//pętla jest wykonywana dopóki początek i koniec nie znajdą się pod tym samym znakiem
 }
 int main()
 {
-	char txt[] = "abc";
+	char txt[] = "1234";
 	printf("rozmiar tablicy: %d\n", (int)(sizeof(txt) / sizeof(char)));
-	
 	printf("\n");
-	for (char* ptr = &txt[0]; *ptr; printf("%c", *ptr), ptr++);
-	printf("\n");
-
-	for (char* ptr = txt; *ptr; printf("%p=%c ", ptr, *ptr), ptr++);
-	printf("\n");
-
-	for (int i = 0; *(txt + i); printf("%p=%c ", txt + i, *(txt + i)), i++);
-	printf("\n");
-
-	for (char* ptr = txt, i = 0; ptr[i]; printf("%p=%c ", txt + i, ptr[i]), i++);
-	printf("\n");
-	printf("odwrocony tekst to:\n");
+	printf("odwrocony tekst to:");
 	odwroc(txt);
-
+	for(int i=0; i<4; i++) 	printf("%c", txt[i]);
 	return 0;
 }
-*/
+
 
 
 #include<stdio.h>
@@ -60,14 +53,3 @@ void main()
 		}
 	}
 */
-float macierz[2][2] = { {1.0,2.0},{3.0,-1.0} };
-float wyznacznik(float *macierz)
-{
-	int wynik=(macierz[0]) * (macierz[3]) - (macierz[1]) *(macierz[2]);
-	return wynik;
-}
-
-void main()
-{
-	printf("%f\n", wyznacznik((void *)macierz));
-}
