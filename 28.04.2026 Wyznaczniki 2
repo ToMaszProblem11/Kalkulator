@@ -63,12 +63,11 @@ void main()
 float macierz[2][2] = { {1.0,2.0},{3.0,-1.0} };
 float wyznacznik(float *macierz)
 {
-	(&macierz[0][0]) * (&macierz[1][1]) - (*macierz[0][1]) *(*macierz[1][0]);
-	return *macierz;
+	int wynik=(macierz[0]) * (macierz[3]) - (macierz[1]) *(macierz[2]);
+	return wynik;
 }
 
 void main()
 {
-	printf("%f\n", wyznacznik((float *)macierz));
+	printf("%f\n", wyznacznik((void *)macierz));
 }
-
