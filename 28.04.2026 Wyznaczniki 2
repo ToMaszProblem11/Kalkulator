@@ -33,7 +33,35 @@ void main()
 	*/
 }
 
+/*
+#include <stdio.h>
 
+void odwroc(char txt[])
+{
+    char *poczatek = txt;
+    char *koniec = txt;
+    char znaczek;
+    while (*(koniec + 1)) koniec++;
+
+    while(poczatek < koniec)
+    {
+        znaczek = *poczatek;
+        *poczatek++ = *koniec;
+        *koniec-- = znaczek;
+    }
+}
+
+int main()
+{
+    char txt[] = "abc";
+    printf("rozmiar tablicy: %d\n", (int)(sizeof(txt) / sizeof(char)));
+    printf("\n");
+    printf("odwrocony tekst to:");
+    odwroc(txt);
+    for(int i=0; i<3; i++) printf("%c", txt[i]);
+    return 0;
+}
+*/
 /*
 float macierz[2][2] = { {1.0,2.0},{3.0,-1.0} };
 float wyznacznik(float *macierz)
