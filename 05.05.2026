@@ -1,0 +1,164 @@
+
+
+/*
+#include<stdio.h>
+
+int tab[3][3][2] = { {{1,2},{3,4},{5,6}},{{7,8},{9,10},{11,12}},{{13,14},{15,16},{17,18}} };
+void main()
+{
+	for (int* ptr = (int*)tab; ptr - (int*)tab < 9; printf("%d,", *ptr++)); //wypisuje po kolei liczby zapisane pod wskaźnikiem
+
+	int x, y, z, indeks;
+	for (x = 0, indeks = 0; x < 3; x++)
+	{
+		for (y = 0; y < 3; y++)
+		{
+			for (z = 0; z < 2; z++)
+			{
+				//printf("%d,", tab[x][y][z]);
+				printf("\n");
+				indeks++;
+				printf("%d %d %d -> %d ", x, y, z, indeks);
+			}
+		}
+	}
+	//wypisuje liczby i pozycje na którą są przypisane
+	/*
+	[x] (Głębokość / Warstwy / Strony): To jest pierwszy wymiar. Określa, ile dwuwymiarowych tablic (kartek) ułożymy jedna za drugą.
+
+	[Y] (Wiersze / Wysokość): To jest drugi wymiar. Określa, ile wierszy ma każda pojedyncza warstwa.
+
+	[z] (Kolumny / Szerokość): To jest trzeci wymiar. Określa, ile pojedynczych elementów (np. liczb) znajduje się w jednym wierszu.
+
+	*/
+
+
+/*
+#include <stdio.h>
+
+void odwroc(char txt[])
+{
+	char *poczatek = txt;
+	char *koniec = txt;
+	char znaczek;
+	while (*(koniec + 1)) koniec++;
+
+	while(poczatek < koniec)
+	{
+		znaczek = *poczatek;
+		*poczatek++ = *koniec;
+		*koniec-- = znaczek;
+	}
+}
+
+int main()
+{
+	char txt[] = "abc";
+	printf("rozmiar tablicy: %d\n", (int)(sizeof(txt) / sizeof(char)));
+	printf("\n");
+	printf("odwrocony tekst to:");
+	odwroc(txt);
+	for(int i=0; i<3; i++) printf("%c", txt[i]);
+	return 0;
+}
+*/
+/*
+float macierz[2][2] = { {1.0,2.0},{3.0,-1.0} };
+float wyznacznik(float *macierz)
+{
+	float wynik=(macierz[0]) * (macierz[3]) - (macierz[1]) *(macierz[2]);
+	return wynik;
+}
+
+void main()
+{
+	printf("%f\n", wyznacznik((void *)macierz));
+//alternatywnie printf("%f\n", wyznacznik(&macierz[0][0]));
+}
+*/
+
+#include <stdio.h>
+/*
+int indeks(int numer_wiersza, int numer_kolumny)
+{
+	int macierz[2][2] = { {1,2},{3,4} };
+
+	//wskaźnikiem prztrzymy jak na jednowymiarową 
+	//przeliczamy na indeks jednowymiarowy
+
+	int *wsk = (int *)macierz;
+	
+	int rozmiar = 2;
+	
+	if ((numer_wiersza) == 0)
+	{
+		if (numer_kolumny == 0)
+		{
+			return *(wsk);
+		}
+		if (numer_kolumny == 1)
+		{
+			return *(wsk+1);
+		}
+	}
+
+	if (numer_wiersza == 1)
+	{
+		if (numer_kolumny == 0)
+		{
+			return *(wsk+2);
+		}
+		if (numer_kolumny == 1)
+		{
+			return *(wsk+3);
+			
+		}
+	}
+*/
+
+int main()
+{
+	int macierz[2][2] = { {1,2},{3,4} };
+
+	int para2index(int wiersz, int kolumna, int l_kolumn)
+	{
+		return wiersz * l_kolumn + kolumna;
+	}
+
+	int index2wiersz(int index, int l_kolumn)
+	{
+		return index / l_kolumn;
+	}
+
+	int index2kolumna(int index, int l_kolumn)
+	{
+		return % l_kolumn;
+	}
+
+	printf("%d", para2index(1, 1, 3));
+}
+
+int transponuj(int *macierz, int l_wierszy, int l_kolumn)
+{
+	int para2index(int wiersz, int kolumna, int l_kolumn)
+	{
+		return wiersz * l_kolumn + kolumna;
+	}
+	int index2wiersz(int index, int l_kolumn)
+	{
+		return index / l_kolumn;
+	}
+	int index2kolumna(int index, int l_kolumn)
+	{
+		return % l_kolumn;
+	}
+}
+
+void wypisz(int* macierz, int l_wierszy, int l_kolumn)
+{
+
+}
+
+//wypisz
+//transponuj 2x6 -> 6x2
+//wypisz
