@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+void wypisz(int *m, int l_w, int l_k) // wypisuje zadeklarowaną macierz
+{
+ 
+    for(int i=0;i<l_w;i++)
+    {
+        for(int y=0;y<l_k;y++)
+        {
+            printf("%d ", *(m +i*l_k +y)); // m to jest odwołanie do pierwszej wartości w talblicy czyli tutaj 1
+        }
+        printf("\n");
+    }
+}
+
+void transponuj(int *m, int l_w, int l_k) // transponuje i wypisuje zadeklarowaną macierz
+{
+    for(int y=0; y<l_k; y++)
+    {
+        for(int i=0; i<l_w; i++)
+        {
+            printf("%d ", *(m +i*l_k +y));
+        }
+        printf("\n");
+    }
+}
+
+int main()
+{
+    int m[3][3]=
+    {
+        {1,2,3},
+        {4,5,6},
+        {7,8,9}
+    };
+    int M[2][6]=
+    {
+        {1,2,3,4,5,6},
+        {7,8,9,10,11,12}
+    };
+    
+    wypisz((int *)m, 3,3); // (int *) zamienia tablice na jednowymiarową
+    printf("\n");
+    printf("================================\n");
+    transponuj((int *)m, 3,3);
+    printf("\n");
+    printf("================================\n");
+     wypisz((int *)M, 2,6);
+    printf("\n");
+    printf("================================\n");
+    transponuj((int *)M, 2,6);
+   
+}
