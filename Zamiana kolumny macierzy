@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+int suma_kolumny(int *m, int l_wierszy, int l_kolumn, int nr_kolumny)
+{
+    int suma=0;
+    m=m+nr_kolumny-1;
+    for(int i=0; i<l_wierszy;i++)
+    {
+        suma=suma+(*m);
+        m=m+l_kolumn;
+    }
+    
+    return suma;
+}
+
+void zamien_kolumny(int *m, int l_wierszy, int l_kolumn, int kol_A, int kol_B)
+{
+    int temp = 0;
+    
+    int *wsk_A = m + kol_A - 1;
+    int *wsk_B = m + kol_B - 1;
+    
+    // 2. Jedna pętla, bo jedziemy w dół obu kolumn jednocześnie
+    for(int i = 0; i < l_wierszy; i++)
+    {
+        // A. Zrób swapa: zamień wartości pod wskaźnikami *wsk_A i *wsk_B używając temp
+        temp=*wsk_A;
+        *wsk_A=*wsk_B;
+        *wsk_B=temp;
+        wsk_A=wsk_A+l_kolumn;
+        wsk_B=wsk_B+l_kolumn;
+        *wsk_B=temp;
+        
+    }
+    
+    for(int x=0; x<l_wierszy; x++)
+    {
+        for(int y=0; y<l_kolumn; y++)
+        {
+            printf("%d ", *(m+(x*l_kolumn+y)));
+        }
+        printf("\n");
+    }
+    
+}
+
+
+
+int main() 
+{
+    int m[3][3]=
+    {
+        {1,2,3},
+        {4,5,6},
+        {7,8,9}
+    };
+    
+    printf("Suma kolumny: %d\n", suma_kolumny((int *)m,3,3,1));
+    zamien_kolumny((int *)m, 3,3,1,2);
+
+}
+
