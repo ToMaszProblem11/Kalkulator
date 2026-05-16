@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+void odwroc_wiersze(int *m, int l_wierszy, int l_kolumn)
+{
+    int *poczatek;
+    int *koniec;
+    int temp=0;
+    
+    for(int i=0; i<l_wierszy; i++)
+    {
+        poczatek=m+(i*l_kolumn); //!
+        koniec=poczatek + l_kolumn -1;
+        while(poczatek<koniec)
+        {
+            temp=*poczatek;
+            *poczatek=*koniec;
+            *koniec=temp;
+            
+            poczatek++;
+            koniec--;
+        }
+    }
+    
+    for (int i = 0; i < l_wierszy; i++) 
+    {
+        for (int j = 0; j < l_kolumn; j++)
+        {
+            printf("%d ", *(m +(i*l_kolumn +j))); //!
+        }
+        printf("\n");
+    }
+}
+int slad_macierzy(int *m, int wymiar)
+{
+    int suma=0;
+    for(int i=0;i<wymiar;i++)
+    {
+        suma=suma +(*m);
+        m=m+5;
+    }
+    return suma;
+}
+int main()
+{
+    int m[3][4]=
+    {
+        {1,2,3,4},
+        {5,6,7,8},
+        {9,10,11,12}
+    };
+    odwroc_wiersze((int *)m, 3,4);
+    printf("Suma składników na przekątnej to: %d", slad_macierzy((int *)m,3));
+}
