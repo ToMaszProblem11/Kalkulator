@@ -1,0 +1,210 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// =====================================================================
+// TWÓJ NAPRAWIONY KOD BAZOWY
+// =====================================================================
+
+void transponuj(int* m, int l_wierszy, int l_kolumn)
+{
+	int x = 0;
+	// Poprawiono float na int i dynamiczny rozmiar pamięci
+	int* ptr = (int*)calloc(l_wierszy * l_kolumn, sizeof(int));
+	
+	for (int j = 0; j < l_kolumn; j++)
+	{
+		for (int i = 0; i < l_wierszy; i++)
+		{
+			ptr[x++] = *(m + i * l_kolumn + j);
+		}
+	}
+	
+	// Skopiowanie przetworzonych elementów z powrotem do podanego wskaźnika
+	for (int k = 0; k < l_wierszy * l_kolumn; k++)
+	{
+	    *(m + k) = ptr[k];
+	}
+	
+	free(ptr); // Pamięć zostaje poprawnie zwolniona
+}
+
+void wypisz(int* macierz, int l_wierszy, int l_kolumn)
+{
+	for (int i = 0; i < l_wierszy; i++) 
+	{
+		for (int j = 0; j < l_kolumn; j++) 
+		{
+			printf("%d ", *(macierz + i * l_kolumn + j));
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
+
+// =====================================================================
+// DODANE FUNKCJE (TYP DOUBLE, WSKAŹNIKI, BEZ MATH.H, UŻYWAJĄCE CALLOC)
+// =====================================================================
+
+void wypisz_double(double* macierz, int n)
+{
+    for (int i = 0; i < n; i++) 
+    {
+        for (int j = 0; j < n; j++) 
+        {
+            double val = *(macierz + i * n + j);
+            if (val > -1e-9 && val < 1e-9) val = 0.0; // wyzerowanie niedokładności float
+            printf("%6.2f ", val);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void podmacierz(double* m, double* temp, int n, int usun_wiersz, int usun_kolumne) 
+{
+    int i = 0, j = 0;
+    for (int wiersz = 0; wiersz < n; wiersz++) 
+    {
+        for (int kolumna = 0; kolumna < n; kolumna++) 
+        {
+            if (wiersz != usun_wiersz && kolumna != usun_kolumne) 
+            {
+                *(temp + i * (n - 1) + j) = *(m + wiersz * n + kolumna);
+                j++;
+                if (j == n - 1) 
+                {
+                    j = 0;
+                    i++;
+                }
+            }
+        }
+    }
+}
+
+double wyznacznik(double* m, int n) 
+{
+    if (n == 1) return *m;
+    if (n == 2) return (*m) * (*(m + 3)) - (*(m + 1)) * (*(m + 2)); 
+
+    double det = 0;
+    double* temp = (double*)calloc((n - 1) * (n - 1), sizeof(double));
+    int znak = 1;
+
+    for (int f = 0; f < n; f++) 
+    {
+        podmacierz(m, temp, n, 0, f);
+        det += znak * (*(m + f)) * wyznacznik(temp, n - 1);
+        znak = -znak;
+    }
+    
+    free(temp);
+    return det;
+}
+
+void macierz_odwrotna(double* m, double* odwrotna, int n) 
+{
+    double det = wyznacznik(m, n);
+    
+    if (det > -1e-9 && det < 1e-9) 
+    {
+        printf("Wyznacznik 0. Brak macierzy odwrotnej.\n");
+        return;
+    }
+
+    if (n == 1) 
+    {
+        *odwrotna = 1.0 / (*m);
+        return;
+    }
+
+    double* temp = (double*)calloc((n - 1) * (n - 1), sizeof(double));
+
+    for (int i = 0; i < n; i++) 
+    {
+        for (int j = 0; j < n; j++) 
+        {
+            podmacierz(m, temp, n, i, j);
+            int znak = ((i + j) % 2 == 0) ? 1 : -1;
+            
+            // Od razu wpisujemy transponowane (j*n+i zamiast i*n+j)
+            *(odwrotna + j * n + i) = (znak * wyznacznik(temp, n - 1)) / det;
+        }
+    }
+    
+    free(temp);
+}
+
+void wymnoz_macierze(double* m1, double* m2, double* wynik, int n) 
+{
+    for (int i = 0; i < n; i++) 
+    {
+        for (int j = 0; j < n; j++) 
+        {
+            *(wynik + i * n + j) = 0;
+            for (int k = 0; k < n; k++) 
+            {
+                *(wynik + i * n + j) += (*(m1 + i * n + k)) * (*(m2 + k * n + j));
+            }
+        }
+    }
+}
+
+
+int main()
+{
+    // ===============================================
+    // TWÓJ ORYGINALNY TEST (INT)
+    // ===============================================
+	int m[2][6] = { {1,2,3,4,5,6}, {10,20,30,40,50,60} };
+	
+	printf("Macierz oryginalna:\n");
+	wypisz((int *)m,2,6);
+	
+	transponuj((int *)m,2,6);
+	
+	printf("Macierz po transpozycji:\n");
+	wypisz((int*)m, 6, 2);
+
+
+    // ===============================================
+    // TEST NOWYCH FUNKCJI (DOUBLE)
+    // ===============================================
+    printf("================================\n");
+    printf("TEST NOWYCH FUNKCJI MATEMATYCZNYCH\n");
+    printf("================================\n\n");
+    
+    int n = 3; 
+    
+    // Alokujemy testowe macierze kwadratowe n x n
+    double* macierz_testowa = (double*)calloc(n * n, sizeof(double));
+    double* odwrotna = (double*)calloc(n * n, sizeof(double));
+    double* wynik = (double*)calloc(n * n, sizeof(double));
+
+    // Wypełniamy testowymi danymi za pomocą Twojego wskaźnikowego stylu
+    double wartosci[9] = { 2.0, 1.0, 3.0, 4.0, 0.0, 1.0, 1.0, 2.0, 2.0 };
+    for (int i = 0; i < n * n; i++) 
+    {
+        *(macierz_testowa + i) = wartosci[i];
+    }
+
+    printf("Macierz pierwotna (3x3):\n");
+    wypisz_double(macierz_testowa, n);
+
+    double det = wyznacznik(macierz_testowa, n);
+    printf("Wyznacznik macierzy: %6.2f\n\n", det);
+
+    printf("Macierz odwrotna:\n");
+    macierz_odwrotna(macierz_testowa, odwrotna, n);
+    wypisz_double(odwrotna, n);
+
+    printf("Mnozenie macierzy pierwotnej i odwrotnej (macierz jednostkowa):\n");
+    wymnoz_macierze(macierz_testowa, odwrotna, wynik, n);
+    wypisz_double(wynik, n);
+
+    // Czyszczenie
+    free(macierz_testowa);
+    free(odwrotna);
+    free(wynik);
+
+	return 0;
+}
