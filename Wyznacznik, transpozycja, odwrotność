@@ -1,0 +1,160 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void transponuj(float* m, int l_wierszy, int l_kolumn)
+{
+	int x = 0;
+	float* ptr = (float*)calloc(l_wierszy * l_kolumn, sizeof(float));
+	
+	for (int j = 0; j < l_kolumn; j++)
+	{
+		for (int i = 0; i < l_wierszy; i++)
+		{
+			ptr[x++] = *(m + i * l_kolumn + j);
+		}
+	}
+	
+	for (int k = 0; k < l_wierszy * l_kolumn; k++)
+	{
+		*(m + k) = ptr[k];
+	}
+	
+	free(ptr); 
+}
+
+void wypisz(float* macierz, int l_wierszy, int l_kolumn)
+{
+	for (int i = 0; i < l_wierszy; i++) 
+	{
+		for (int j = 0; j < l_kolumn; j++) 
+		{
+			float val = *(macierz + i * l_kolumn + j);
+			printf("%6.2f ", val);
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
+
+void podmacierz(float* m, float* temp, int n, int usun_wiersz, int usun_kolumne) 
+{
+	int i = 0, j = 0;
+	for (int wiersz = 0; wiersz < n; wiersz++) 
+	{
+		for (int kolumna = 0; kolumna < n; kolumna++) 
+		{
+			if (wiersz != usun_wiersz && kolumna != usun_kolumne) 
+			{
+				*(temp + i * (n - 1) + j) = *(m + wiersz * n + kolumna);
+				j++;
+				if (j == n - 1) 
+				{
+					j = 0;
+					i++;
+				}
+			}
+		}
+	}
+}
+
+float wyznacznik(float* m, int n) 
+{
+	if (n == 1) return *m;
+	if (n == 2) return (*m) * (*(m + 3)) - (*(m + 1)) * (*(m + 2)); 
+
+	float det = 0;
+	float* temp = (float*)calloc((n - 1) * (n - 1), sizeof(float));
+	int znak = 1;
+
+	for (int f = 0; f < n; f++) 
+	{
+		podmacierz(m, temp, n, 0, f);
+		det += znak * (*(m + f)) * wyznacznik(temp, n - 1);
+		znak = -znak;
+	}
+	
+	free(temp);
+	return det;
+}
+
+void macierz_odwrotna(float* m, float* odwrotna, int n) 
+{
+	float det = wyznacznik(m, n);
+	
+	if (det > -0.000001 && det < 0.000001)
+    {
+        printf("Wyznacznik bliski 0. Brak macierzy odwrotnej.\n");
+        return;
+    }
+
+	if (n == 1) 
+	{
+		*odwrotna = 1.0f / (*m);
+		return;
+	}
+
+	float* temp = (float*)calloc((n - 1) * (n - 1), sizeof(float));
+
+	for (int i = 0; i < n; i++) 
+	{
+		for (int j = 0; j < n; j++) 
+		{
+			podmacierz(m, temp, n, i, j);
+			int znak = ((i + j) % 2 == 0) ? 1 : -1;
+			*(odwrotna + i * n + j) = (znak * wyznacznik(temp, n - 1)) / det;
+		}
+	}
+	
+	free(temp);
+	transponuj(odwrotna, n, n);
+}
+
+void mnozenie_macierzy(float* m1, float* m2, float* wynik, int n) 
+{
+	for (int i = 0; i < n; i++) 
+	{
+		for (int j = 0; j < n; j++) 
+		{
+			*(wynik + i * n + j) = 0;
+			for (int k = 0; k < n; k++) 
+			{
+				*(wynik + i * n + j) += (*(m1 + i * n + k)) * (*(m2 + k * n + j));
+			}
+		}
+	}
+}
+
+int main()
+{
+	int n = 3; 
+	
+	float* MACIERZ = (float*)calloc(n * n, sizeof(float));
+	float* odwrotna = (float*)calloc(n * n, sizeof(float));
+	float* wynik = (float*)calloc(n * n, sizeof(float));
+
+	float wartosci[9] = { 3.1f, 1.7f, 2.5f, 1.3f, 0.1f, 2.2f, 4.1f, 5.2f, 3.3f };
+	for (int i = 0; i < n * n; i++) 
+	{
+		*(MACIERZ + i) = wartosci[i];
+	}
+
+	printf("Macierz oryginalna (3x3):\n");
+	wypisz(MACIERZ, n, n);
+
+	float det = wyznacznik(MACIERZ, n);
+	printf("Wyznacznik macierzy: %6.2f\n\n", det);
+
+	printf("Macierz odwrotna:\n");
+	macierz_odwrotna(MACIERZ, odwrotna, n);
+	wypisz(odwrotna, n, n);
+
+	printf("Macierz jednostkowa:\n");
+	mnozenie_macierzy(MACIERZ, odwrotna, wynik, n);
+	wypisz(wynik, n, n);
+
+	free(MACIERZ);
+	free(odwrotna);
+	free(wynik);
+
+	return 0;
+}
