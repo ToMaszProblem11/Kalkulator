@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int transponuj(int* m, int l_wierszy, int l_kolumn)
+{
+    int x = 0;
+    // Alokacja pamięci dla tymczasowej tablicy
+    int* ptr = (int*)calloc(l_wierszy * l_kolumn, sizeof(int));
+    for (int j = 0; j < l_kolumn; j++)
+    {
+        for (int i = 0; i < l_wierszy; i++)
+        {
+            ptr[x++] = *(m + i * l_kolumn + j);
+        }
+    }
+    // Przepisanie uporządkowanych danych z powrotem do oryginalnej macierzy
+    for (int i = 0; i < l_wierszy * l_kolumn; i++)
+    {
+        *(m + i) = ptr[i];
+    }
+    // Zwolnienie pamięci
+    free(ptr);
+    return 0;
+}
+
+void wypisz(int* macierz, int l_wierszy, int l_kolumn)
+{
+    for (int i = 0; i < l_wierszy; i++) 
+    {
+        for (int j = 0; j < l_kolumn; j++) 
+        {
+            // Wypisanie elementu 
+            printf("%d ", *(macierz + i * l_kolumn + j));
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+int main()
+{
+    int m[2][6] = { {1,2,3,4,5,6}, {10,20,30,40,50,60} };
+    
+    printf("Macierz oryginalna:\n");
+    wypisz((int *)m, 2, 6); // Wymiary przed transpozycją: 2 wiersze, 6 kolumn
+    
+    transponuj((int *)m, 2, 6);
+    
+    printf("Macierz po transpozycji:\n");
+    wypisz((int*)m, 6, 2); // Wymiary po transpozycji: 6 wierszy, 2 kolumny
+
+    return 0;
+}
