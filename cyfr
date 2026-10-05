@@ -1,0 +1,78 @@
+clear;
+close all;
+clc;
+
+fs=100; % częstotliwość próbkowania wyrażona w Hz
+T=1/fs; % okres próbkowania
+
+t=0:T:1-T; % wektor czasu od 0 do 1 z krokiem T
+y=1*sin(2*pi*1*t); % 1 po pi to częstotliwość
+figure; %otwiera okno graficzne
+plot(y,'o') % -o łączy punkty
+
+xlabel('Numer próbki [N]') 
+ylabel('Amplituda [V]')
+
+figure; %otwiera okno graficzne
+plot(t,y,'o')
+xlabel('Czas [s]') 
+ylabel('Amplituda [V]')
+
+grid on
+axis tight
+
+%komenda doc np axis pokazuje jak działa komenda
+%komenda help również
+
+% twierdzenie schanonna kotelnikova (twierdzenie o próbkowaniu)wejściówka 
+---------------------------
+clear;
+close all;
+clc;
+
+fs=200; 
+T=1/fs; 
+
+t=0:T:1-T; 
+y1=1*sin(2*pi*7*t)+1;
+y2=1*sin(2*pi*17*t+pi/3)-3;
+
+X=y1+y2+rand(1,200);
+figure;
+plot(y1,'-ob')
+hold on; %kilka wykresów w jednym oknie
+plot(y2,'-or')
+plot(X,'-og')
+plot(rand)
+
+legend('suma','y1','y2','X')
+
+
+
+
+
+
+%komenda doc np axis pokazuje jak działa komenda
+%komenda help również
+
+--------------------------------------
+clear;
+clc;
+close all;
+[y,fs]=audioread('odliczanie.wav');
+plot(y);
+
+%soundsc(y,fs) np.soundsc(y,fs*3)
+-----------------------
+clear;
+clc;
+close all;
+
+fs=44100;
+T=1/fs;
+t=0:T:1-T;
+
+y=sin(2*pi*1000*t);
+plot(y);
+
+audiowrite('nasz_plik.wav',y,fs) %zapisywanie jako plik
